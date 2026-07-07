@@ -1,6 +1,7 @@
 import { ArrowRight, Link2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Container from "@/components/shared/container";
+import CreateLinkForm from "@/components/forms/create-link-form";
 
 export default function HomePage() {
   return (
@@ -35,6 +36,7 @@ export default function HomePage() {
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
+      <CreateLinkForm />
         </section>
       </Container>
     </main>
