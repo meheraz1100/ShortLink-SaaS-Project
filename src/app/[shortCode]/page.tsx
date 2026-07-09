@@ -20,6 +20,13 @@ export default async function RedirectPage({ params }: Props) {
     notFound();
   }
 
+  if (
+    link.expiresAt &&
+    new Date() > link.expiresAt
+) {
+    return redirect("/expired");
+}
+
   await prisma.link.update({
     where: {
       id: link.id,

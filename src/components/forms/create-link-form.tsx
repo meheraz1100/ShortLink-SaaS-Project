@@ -1,6 +1,14 @@
 "use client";
 
 import { useState } from "react";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { linkSchema, LinkFormData } from "@/lib/validations/links";
+
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -11,20 +19,21 @@ type LinkResponse = {
 };
 
 export default function CreateLinkForm() {
-    const [url, setUrl] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [shortLink, setShortLink] = useState("");
-    
-    // async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
-    //   e.preventDefault();
-    
-    //   console.log("Button Clicked");
-    // }
-  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const [loading, setLoading] = useState(false);
+  const [shortLink, setShortLink] = useState("");
+  // const [shortLink, setShortLink] = useState("");
+  // const [errors, setErrors] = useState<Record<string, { message: string }>>({});
 
-    if (!url) return;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting, errors },
+  } = useForm<LinkFormData>({
+    resolver: zodResolver(linkSchema),
+  });
 
+  async function onSubmit(data: LinkFormData) {
     try {
       setLoading(true);
 
@@ -33,18 +42,24 @@ export default function CreateLinkForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          originalUrl: url,
-        }),
+        body: JSON.stringify(data),
       });
 
-      const data: LinkResponse = await res.json();
+      const result = await res.json();
 
-      setShortLink(`${window.location.origin}/${data.shortCode}`);
-      setUrl("");
-    } catch (error) {
-      console.error(error);
-      alert("Failed to create short link.");
+      if (!res.ok) {
+        toast.error(result.message || "Something went wrong");
+
+        return;
+      }
+
+      setShortLink(`${window.location.origin}/${result.shortCode}`);
+
+      toast.success("Short URL Created Successfully");
+
+      reset();
+    } catch {
+      toast.error("Failed to create short link.");
     } finally {
       setLoading(false);
     }
@@ -53,19 +68,40 @@ export default function CreateLinkForm() {
   return (
     <div className="mt-10">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="mx-auto flex max-w-3xl gap-3"
       >
         <Input
           type="url"
           placeholder="Paste your long URL..."
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          {...register("originalUrl")}
         />
 
+        {errors.originalUrl && (
+          <p className="text-sm text-red-500">{errors.originalUrl.message}</p>
+        )}
+
+        <Input
+          placeholder="Custom Alias (optional)"
+          {...register("customAlias")}
+        />
+
+        {errors.customAlias && (
+          <p className="text-sm text-red-500">{errors.customAlias.message}</p>
+        )}
         
-        <Button type="submit" disabled={loading}>
-            {loading ? "Creating..." : "Shorten URL"}
+        <div className="w-full">
+          <Input type="datetime-local" {...register("expiresAt")} />
+
+          {errors.expiresAt && (
+            <p className="text-sm text-red-500 mt-1">
+              {errors.expiresAt.message}
+            </p>
+          )}
+        </div>
+
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Creating..." : "Shorten URL"}
         </Button>
       </form>
 
