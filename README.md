@@ -1,36 +1,152 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![Next.js](https://img.shields.io/badge/Next.js-16-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-Blue)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748)
+![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-## Getting Started
+# 🔗 ShortLink SaaS
 
-First, run the development server:
+A modern URL Shortener SaaS built with **Next.js 16**, **Prisma**, **Clerk Authentication**, and **PostgreSQL (Neon)**. Easily create, manage, and track your shortened links through a clean dashboard.
+
+## 🌐 Live Demo
+
+👉 https://shortlink-saas-pro.vercel.app/
+
+---
+
+## ✨ Features
+
+- 🔐 Secure Authentication (Clerk)
+- 🔗 Short URL Generation
+- ✏️ Edit Existing Links
+- 🗑️ Delete Links
+- 📋 One-click Copy Short URL
+- 📱 QR Code Generator
+- 🔍 Search Links
+- 📄 Pagination
+- ↕️ Sorting
+- 🎯 Custom Alias Support
+- ⏳ Link Expiration
+- 👤 User-specific Dashboard
+- 📊 Click Tracking
+- 📱 Responsive Design
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- Next.js 16 (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- TanStack Table
+- React Hook Form
+- Zod
+
+### Backend
+- Next.js Route Handlers
+- Prisma ORM
+- PostgreSQL (Neon)
+
+### Authentication
+- Clerk
+
+### Deployment
+- Vercel
+
+---
+
+## 📂 Folder Structure
+
+```text
+src/
+│
+├── app/
+│   ├── api/
+│   ├── dashboard/
+│   ├── pricing/
+│   ├── features/
+│   ├── about/
+│   ├── privacy/
+│   ├── terms/
+│   └── [shortCode]/
+│
+├── components/
+│   ├── dashboard/
+│   ├── navbar/
+│   ├── footer/
+│   ├── shared/
+│   └── ui/
+│
+├── lib/
+├── utils/
+└── middleware.ts
+```
+
+---
+
+## 🚀 Getting Started
+
+Clone the repository
+
+```bash
+git clone https://github.com/your-username/shortlink-saas.git
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Create a `.env` file
+
+```env
+DATABASE_URL=
+
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+Run the project
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📸 Screenshots
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+_Add screenshots of the Home Page and Dashboard here._
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📌 Future Improvements
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Analytics Dashboard
+- Custom Domain Support
+- Password Protected Links
+- Team Workspace
+- API Access
+- Dark Mode
+- Link Tags & Categories
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 👨‍💻 Author
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**MD Mosaiyeb Islam Meheraz**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- GitHub: https://github.com/meheraz1100
+- LinkedIn: https://www.linkedin.com/in/dev-mosaiyebmeheraz/
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
