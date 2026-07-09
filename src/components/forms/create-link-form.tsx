@@ -12,17 +12,11 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-type LinkResponse = {
-  id: string;
-  originalUrl: string;
-  shortCode: string;
-};
+
 
 export default function CreateLinkForm() {
   const [loading, setLoading] = useState(false);
   const [shortLink, setShortLink] = useState("");
-  // const [shortLink, setShortLink] = useState("");
-  // const [errors, setErrors] = useState<Record<string, { message: string }>>({});
 
   const {
     register,
