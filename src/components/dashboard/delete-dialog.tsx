@@ -44,14 +44,16 @@ export default function DeleteDialog({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button
-          size="icon"
-          variant="destructive"
-        >
-          <Trash2 className="w-4 h-4" />
-        </Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger
+  render={
+    <Button
+      size="icon"
+      variant="destructive"
+    >
+      <Trash2 className="w-4 h-4" />
+    </Button>
+  }
+/>
 
       <AlertDialogContent>
         <AlertDialogHeader>

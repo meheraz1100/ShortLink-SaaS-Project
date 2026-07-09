@@ -19,10 +19,14 @@ export default function SortSelect({
 }: Props) {
   return (
     <Select
-      value={value}
-      onValueChange={onChange}
-    >
-      <SelectTrigger className="w-[220px]">
+  value={value}
+  onValueChange={(newValue) => {
+    if (newValue) {
+      onChange(newValue);
+    }
+  }}
+>
+      <SelectTrigger className="w-55">
         <SelectValue />
       </SelectTrigger>
 
