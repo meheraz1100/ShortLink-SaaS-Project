@@ -80,6 +80,7 @@ export default function Navbar() {
                 {item.name}
               </Link>
             ))}
+            <ThemeToggle />
 
             {isSignedIn ? (
               <div className="ml-2 flex items-center gap-3">
@@ -90,7 +91,7 @@ export default function Navbar() {
                     Dashboard
                   </Button>
                 </Link>
-<ThemeToggle />
+
                 <UserButton
                   appearance={{
                     elements: {
@@ -123,7 +124,7 @@ export default function Navbar() {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="md:hidden "
             onClick={() => setOpen(!open)}
           >
             {open ? (
@@ -137,12 +138,12 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className={`overflow-hidden border-t bg-white transition-all duration-300 md:hidden ${
+        className={`overflow-hidden border-t  transition-all duration-300 md:hidden ${
           open ? "max-h-125" : "max-h-0"
         }`}
       >
         <Container>
-          <div className="space-y-2 py-6">
+          <div className="space-y-2 py-6 text-foreground">
 
             {navLinks.map((item) => (
               <Link
@@ -158,7 +159,7 @@ export default function Navbar() {
                 {item.name}
               </Link>
             ))}
-
+<ThemeToggle />
             <div className="mt-5 border-t pt-5">
 
               {isSignedIn ? (
@@ -174,7 +175,7 @@ export default function Navbar() {
                       Dashboard
                     </Button>
                   </Link>
-<ThemeToggle />
+
                   <UserButton
                     appearance={{
                       elements: {
