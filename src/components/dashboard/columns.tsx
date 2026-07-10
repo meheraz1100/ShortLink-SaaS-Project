@@ -18,9 +18,18 @@ export type Link = {
 
 export const columns: ColumnDef<Link>[] = [
   {
-    accessorKey: "originalUrl",
-    header: "Original URL",
-  },
+  accessorKey: "originalUrl",
+  header: "Original URL",
+
+  cell: ({ row }) => (
+    <div
+      className="max-w-62.5 truncate"
+      title={row.original.originalUrl}
+    >
+      {row.original.originalUrl}
+    </div>
+  ),
+},
   {
   accessorKey: "shortCode",
   header: "Short URL",
@@ -29,18 +38,21 @@ export const columns: ColumnDef<Link>[] = [
   `${process.env.NEXT_PUBLIC_APP_URL}/${row.original.shortCode}`;
 
     return (
-      <div className="flex items-center gap-2">
-        <a
-          href={shortUrl}
-          target="_blank"
-          className="text-blue-600 underline"
-        >
-          {shortUrl}
-        </a>
+      <div className="flex min-w-0 items-center gap-2">
+  <a
+    href={shortUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="min-w-0 truncate text-primary hover:underline"
+  >
+    {shortUrl}
+  </a>
 
-        <CopyButton text={shortUrl} />
-        <QRButton shortCode={row.original.shortCode} />
-      </div>
+  <div className="flex shrink-0 gap-2">
+    <CopyButton text={shortUrl} />
+    <QRButton shortCode={row.original.shortCode} />
+  </div>
+</div>
     );
   },
 },
@@ -73,7 +85,7 @@ export const columns: ColumnDef<Link>[] = [
 
     if (!expiresAt) {
       return (
-        <span className="rounded bg-green-100 px-2 py-1 text-xs text-green-700">
+        <span className="inline-flex whitespace-nowrap rounded bg-green-100 px-2 py-1 text-xs text-green-700">
           Active
         </span>
       );
@@ -83,11 +95,11 @@ export const columns: ColumnDef<Link>[] = [
       new Date() > new Date(expiresAt);
 
     return expired ? (
-      <span className="rounded bg-red-100 px-2 py-1 text-xs text-red-700">
+      <span className="inline-flex whitespace-nowrap rounded bg-red-100 px-2 py-1 text-xs text-red-700">
         Expired
       </span>
     ) : (
-      <span className="rounded bg-green-100 px-2 py-1 text-xs text-green-700">
+      <span className="inline-flex whitespace-nowrap rounded bg-green-100 px-2 py-1 text-xs text-green-700">
         Active
       </span>
     );
@@ -105,7 +117,7 @@ export const columns: ColumnDef<Link>[] = [
   id: "actions",
   header: "Actions",
   cell: ({ row }) => (
-    <div className="flex gap-2">
+    <div className="flex shrink-0 gap-2">
       <EditButton id={row.original.id} />
       <DeleteDialog
     id={row.original.id}

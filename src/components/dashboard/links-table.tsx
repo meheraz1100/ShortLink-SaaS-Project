@@ -187,7 +187,7 @@ export default function LinksTable({ links }: Props) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="min-w-0 space-y-6">
 
       {/* Search + Sort */}
 
@@ -207,9 +207,10 @@ export default function LinksTable({ links }: Props) {
 
       {/* Table */}
 
-      <div className="overflow-x-auto rounded-xl border">
+      <div className="w-full overflow-x-auto rounded-xl border">
+        
 
-        <Table>
+        <Table className="min-w-237.5">
 
           <TableHeader>
             {table

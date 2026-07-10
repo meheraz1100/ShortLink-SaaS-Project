@@ -1,10 +1,9 @@
-import { prisma } from "@/lib/prisma";
-import LinksTable from "@/components/dashboard/links-table";
 import DashboardStats from "@/components/dashboard/dashboard-stats";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
 export default async function DashboardPage() {
   const { userId } = await auth();
+
 
   if (!userId) {
     return null;
@@ -12,25 +11,10 @@ export default async function DashboardPage() {
 
   const user = await currentUser();
 
-  const links = await prisma.link.findMany({
-    where: {
-      clerkUserId: userId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    select: {
-      id: true,
-      originalUrl: true,
-      shortCode: true,
-      createdAt: true,
-      clicks: true,
-      expiresAt: true,
-    },
-  });
+  
 
   return (
-    <main className="container mx-auto px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <main className=" mb-8 ">
       {/* Header */}
       <section className="mb-8 flex flex-col gap-3 sm:mb-10">
         <div>
@@ -61,10 +45,17 @@ export default async function DashboardPage() {
       {/* Stats */}
       <div className="mb-8">
         <DashboardStats />
+        {/* <RecentClickChart /> */}
       </div>
 
       {/* Table */}
-      <LinksTable links={links} />
+      {/* <LinksTable links={links} />  */}
+      {/* <br />
+        <AnalyticsChart data={weeklyClicks} />
+        <br />
+        <TopLinksChart data={topLinks} />
+        <br />
+        <DeviceDistribution /> */}
     </main>
   );
 }

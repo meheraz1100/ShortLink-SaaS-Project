@@ -6,21 +6,12 @@ import { usePathname } from "next/navigation";
 
 import Container from "../shared/container";
 
-import {
-  UserButton,
-  SignInButton,
-  useUser,
-} from "@clerk/nextjs";
+import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "../theme-toggle";
 
-import {
-  Link2,
-  LayoutDashboard,
-  Menu,
-  X,
-} from "lucide-react";
+import { Link2, LayoutDashboard, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -49,7 +40,6 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60 text-foreground">
       <Container>
         <div className="flex h-16 items-center justify-between">
-
           {/* Logo */}
           <Link
             href="/"
@@ -60,9 +50,7 @@ export default function Navbar() {
               <Link2 className="h-5 w-5" />
             </div>
 
-            <span className="text-xl font-bold tracking-tight">
-              ShortLink
-            </span>
+            <span className="text-xl font-bold tracking-tight">ShortLink</span>
           </Link>
 
           {/* Desktop Menu */}
@@ -72,9 +60,7 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={` font-medium transition ${
-                  pathname === item.href
-                    ? "text-primary"
-                    : "hover:text-primary"
+                  pathname === item.href ? "text-primary" : "hover:text-primary"
                 }`}
               >
                 {item.name}
@@ -84,7 +70,6 @@ export default function Navbar() {
 
             {isSignedIn ? (
               <div className="ml-2 flex items-center gap-3">
-
                 <Link href="/dashboard">
                   <Button className="gap-2">
                     <LayoutDashboard className="h-4 w-4" />
@@ -95,27 +80,20 @@ export default function Navbar() {
                 <UserButton
                   appearance={{
                     elements: {
-                      avatarBox:
-                        "w-10 h-10 border shadow-sm",
+                      avatarBox: "w-10 h-10 border shadow-sm",
                     },
                   }}
                 />
               </div>
             ) : (
               <div className="ml-2 flex items-center gap-3">
-
                 <SignInButton mode="modal">
-                  <Button variant="outline">
-                    Login
-                  </Button>
+                  <Button variant="outline">Login</Button>
                 </SignInButton>
 
                 <SignInButton mode="modal">
-                  <Button>
-                    Get Started
-                  </Button>
+                  <Button>Get Started</Button>
                 </SignInButton>
-
               </div>
             )}
           </nav>
@@ -127,11 +105,7 @@ export default function Navbar() {
             className="md:hidden "
             onClick={() => setOpen(!open)}
           >
-            {open ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
       </Container>
@@ -144,7 +118,6 @@ export default function Navbar() {
       >
         <Container>
           <div className="space-y-2 py-6 text-foreground">
-
             {navLinks.map((item) => (
               <Link
                 key={item.href}
@@ -159,12 +132,10 @@ export default function Navbar() {
                 {item.name}
               </Link>
             ))}
-<ThemeToggle />
+            <ThemeToggle />
             <div className="mt-5 border-t pt-5">
-
               {isSignedIn ? (
                 <div className="flex items-center justify-between gap-4">
-
                   <Link
                     href="/dashboard"
                     onClick={closeMenu}
@@ -179,34 +150,24 @@ export default function Navbar() {
                   <UserButton
                     appearance={{
                       elements: {
-                        avatarBox:
-                          "w-10 h-10 border shadow-sm",
+                        avatarBox: "w-10 h-10 border shadow-sm",
                       },
                     }}
                   />
-
                 </div>
               ) : (
                 <div className="space-y-3">
-
                   <SignInButton mode="modal">
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                    >
+                    <Button variant="outline" className="w-full">
                       Login
                     </Button>
                   </SignInButton>
 
                   <SignInButton mode="modal">
-                    <Button className="w-full">
-                      Get Started Free
-                    </Button>
+                    <Button className="w-full">Get Started Free</Button>
                   </SignInButton>
-
                 </div>
               )}
-
             </div>
           </div>
         </Container>

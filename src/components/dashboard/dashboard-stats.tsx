@@ -6,6 +6,15 @@ type Stats = {
   totalLinks: number;
   totalClicks: number;
   todayLinks: number;
+  weeklyClicks: [
+  { day: "Mon", clicks: 15 },
+  { day: "Tue", clicks: 22 },
+  { day: "Wed", clicks: 11 },
+  { day: "Thu", clicks: 45 },
+  { day: "Fri", clicks: 37 },
+  { day: "Sat", clicks: 29 },
+  { day: "Sun", clicks: 51 },
+]
 };
 
 export default function DashboardStats() {
