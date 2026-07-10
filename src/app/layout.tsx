@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar/navbar";
 import Footer from "@/components/footer/footer";
 import { Toaster } from "sonner";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +19,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "ShortLink - Shorten, Manage, and Track Your Links",
-  description: "ShortLink is a modern SaaS platform that allows you to shorten, manage, and track your links with ease. Create custom short URLs, monitor click analytics, and enhance your link management experience.",
+  description:
+    "ShortLink is a modern SaaS platform that allows you to shorten, manage, and track your links with ease. Create custom short URLs, monitor click analytics, and enhance your link management experience.",
 };
 
 export default function RootLayout({
@@ -29,12 +31,20 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-screen bg-background text-foreground transition-colors">
         <ClerkProvider>
-          <Navbar />
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            {children}
+          </ThemeProvider>
         </ClerkProvider>
         <Toaster richColors position="top-right" />
         <Footer />

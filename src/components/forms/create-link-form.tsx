@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -12,25 +11,23 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-
-
 export default function CreateLinkForm() {
-  const [loading, setLoading] = useState(false);
   const [shortLink, setShortLink] = useState("");
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting, errors },
+    formState: {
+      isSubmitting,
+      errors,
+    },
   } = useForm<LinkFormData>({
     resolver: zodResolver(linkSchema),
   });
 
   async function onSubmit(data: LinkFormData) {
     try {
-      setLoading(true);
-
       const res = await fetch("/api/links", {
         method: "POST",
         headers: {
@@ -43,75 +40,117 @@ export default function CreateLinkForm() {
 
       if (!res.ok) {
         toast.error(result.message || "Something went wrong");
-
         return;
       }
 
-      setShortLink(`${window.location.origin}/${result.shortCode}`);
+      setShortLink(
+        `${window.location.origin}/${result.shortCode}`
+      );
 
       toast.success("Short URL Created Successfully");
 
       reset();
     } catch {
       toast.error("Failed to create short link.");
-    } finally {
-      setLoading(false);
     }
   }
 
   return (
-    <div className="mt-10">
+    <section className="mx-auto mt-12 w-full max-w-6xl">
+
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mx-auto flex max-w-3xl gap-3"
+        className="rounded-2xl border border-border bg-card p-5 shadow-sm transition-colors md:p-6"
       >
-        <Input
-          type="url"
-          placeholder="Paste your long URL..."
-          {...register("originalUrl")}
-        />
+        <div className="grid gap-4 lg:grid-cols-4">
 
-        {errors.originalUrl && (
-          <p className="text-sm text-red-500">{errors.originalUrl.message}</p>
-        )}
+          {/* URL */}
+          <div className="lg:col-span-2">
+            <Input
+              type="url"
+              placeholder="Paste your long URL..."
+              {...register("originalUrl")}
+            />
 
-        <Input
-          placeholder="Custom Alias (optional)"
-          {...register("customAlias")}
-        />
+            {errors.originalUrl && (
+              <p className="mt-2 text-sm text-destructive">
+                {errors.originalUrl.message}
+              </p>
+            )}
+          </div>
 
-        {errors.customAlias && (
-          <p className="text-sm text-red-500">{errors.customAlias.message}</p>
-        )}
-        
-        <div className="w-full">
-          <Input type="datetime-local" {...register("expiresAt")} />
+          {/* Alias */}
+          <div>
+            <Input
+              placeholder="Custom Alias"
+              {...register("customAlias")}
+            />
 
-          {errors.expiresAt && (
-            <p className="text-sm text-red-500 mt-1">
-              {errors.expiresAt.message}
-            </p>
-          )}
+            {errors.customAlias && (
+              <p className="mt-2 text-sm text-destructive">
+                {errors.customAlias.message}
+              </p>
+            )}
+          </div>
+
+          {/* Expire */}
+          <div>
+            <Input
+              type="datetime-local"
+              {...register("expiresAt")}
+            />
+
+            {errors.expiresAt && (
+              <p className="mt-2 text-sm text-destructive">
+                {errors.expiresAt.message}
+              </p>
+            )}
+          </div>
         </div>
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Creating..." : "Shorten URL"}
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="mt-6 w-full md:w-auto"
+        >
+          {isSubmitting
+            ? "Creating..."
+            : "🚀 Shorten URL"}
         </Button>
       </form>
 
       {shortLink && (
-        <div className="mt-6 rounded-lg border bg-green-50 p-4">
-          <p className="font-medium">✅ Short URL Created</p>
+        <div className="mt-8 rounded-2xl border border-green-500/30 bg-green-500/10 p-5 transition-colors">
 
-          <a
-            href={shortLink}
-            target="_blank"
-            className="text-blue-600 underline"
-          >
-            {shortLink}
-          </a>
+          <h3 className="mb-4 text-lg font-semibold text-green-600 dark:text-green-400">
+            🎉 Your Short Link is Ready!
+          </h3>
+
+          <div className="flex flex-col gap-4 rounded-xl border border-border bg-card p-4 transition-colors md:flex-row md:items-center md:justify-between">
+
+            <a
+              href={shortLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="break-all font-medium text-primary hover:underline"
+            >
+              {shortLink}
+            </a>
+
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                navigator.clipboard.writeText(shortLink);
+                toast.success("Copied to clipboard");
+              }}
+            >
+              Copy Link
+            </Button>
+
+          </div>
         </div>
       )}
-    </div>
+    </section>
   );
 }

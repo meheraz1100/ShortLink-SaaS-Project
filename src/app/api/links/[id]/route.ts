@@ -15,32 +15,104 @@ export async function PATCH(
   const { userId } = await auth();
 
   if (!userId) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { message: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   const { id } = await params;
-  const body = await req.json();
 
-  const link = await prisma.link.findUnique({
-    where: { id },
-  });
+  try {
+    const body = await req.json();
 
-  if (!link) {
-    return NextResponse.json({ message: "Link not found" }, { status: 404 });
+    const {
+      originalUrl,
+      customAlias,
+      expiresAt,
+    } = body;
+
+    const link = await prisma.link.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!link) {
+      return NextResponse.json(
+        { message: "Link not found" },
+        { status: 404 }
+      );
+    }
+
+    if (link.clerkUserId !== userId) {
+      return NextResponse.json(
+        { message: "Forbidden" },
+        { status: 403 }
+      );
+    }
+
+    // Check duplicate alias (only if alias changed)
+    if (
+      customAlias &&
+      customAlias.trim().toLowerCase() !==
+        link.shortCode
+    ) {
+      const exists =
+        await prisma.link.findUnique({
+          where: {
+            shortCode: customAlias
+              .trim()
+              .toLowerCase(),
+          },
+        });
+
+      if (exists) {
+        return NextResponse.json(
+          {
+            message: "Alias already exists",
+          },
+          {
+            status: 409,
+          }
+        );
+      }
+    }
+
+    const updated =
+      await prisma.link.update({
+        where: {
+          id,
+        },
+        data: {
+          originalUrl,
+
+          shortCode:
+            customAlias?.trim()
+              ? customAlias
+                  .trim()
+                  .toLowerCase()
+              : link.shortCode,
+
+          expiresAt: expiresAt
+            ? new Date(expiresAt)
+            : null,
+        },
+      });
+
+    return NextResponse.json(updated);
+  } catch (error) {
+    console.error(error);
+
+    return NextResponse.json(
+      {
+        message: "Failed to update link",
+      },
+      {
+        status: 500,
+      }
+    );
   }
-
-  if (link.clerkUserId !== userId) {
-    return NextResponse.json({ message: "Forbidden" }, { status: 403 });
-  }
-
-  const updated = await prisma.link.update({
-    where: { id },
-    data: {
-      originalUrl: body.originalUrl,
-    },
-  });
-
-  return NextResponse.json(updated);
 }
 
 export async function DELETE(

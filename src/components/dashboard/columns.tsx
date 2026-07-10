@@ -3,7 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import CopyButton from "./copy-button";
-import DeleteButton from "./delete-button";
 import EditButton from "./edit-button";
 import QRButton from "./qr-button";
 import DeleteDialog from "./delete-dialog";
@@ -66,6 +65,7 @@ export const columns: ColumnDef<Link>[] = [
   },
 
   {
+    id: "status",
   accessorKey: "expiresAt",
   header: "Status",
   cell: ({ row }) => {

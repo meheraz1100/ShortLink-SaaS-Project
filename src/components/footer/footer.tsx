@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Link2 } from "lucide-react";
 import {
   FaGithub,
   FaLinkedin,
@@ -7,26 +8,38 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t bg-muted/30">
-      <div className="container mx-auto px-4 py-14">
+    <footer className="mt-20 border-t bg-background text-foreground">
+      <div className="container mx-auto max-w-7xl px-5 py-14">
 
-        <div className="grid gap-10 md:grid-cols-4">
+        {/* Top */}
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
 
           {/* Brand */}
-          <div>
-            <h2 className="text-2xl font-bold">
-              ShortLink
-            </h2>
+          <div className="space-y-4">
 
-            <p className="mt-4 text-sm text-muted-foreground leading-6">
-              A modern SaaS platform for shortening,
-              managing and tracking links with ease.
+            <div className="flex items-center gap-3">
+
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
+                <Link2 className="h-5 w-5 text-primary" />
+              </div>
+
+              <h2 className="text-2xl font-bold">
+                ShortLink
+              </h2>
+
+            </div>
+
+            <p className="text-sm leading-6 text-muted-foreground">
+              Modern SaaS URL shortening platform for creating,
+              managing and tracking links with powerful analytics.
             </p>
+
           </div>
 
           {/* Product */}
           <div>
-            <h3 className="font-semibold mb-4">
+
+            <h3 className="mb-5 font-semibold">
               Product
             </h3>
 
@@ -35,7 +48,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/features"
-                  className="text-muted-foreground hover:text-primary"
+                  className="text-muted-foreground transition hover:text-primary"
                 >
                   Features
                 </Link>
@@ -44,7 +57,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/pricing"
-                  className="text-muted-foreground hover:text-primary"
+                  className="text-muted-foreground transition hover:text-primary"
                 >
                   Pricing
                 </Link>
@@ -53,18 +66,20 @@ export default function Footer() {
               <li>
                 <Link
                   href="/dashboard"
-                  className="text-muted-foreground hover:text-primary"
+                  className="text-muted-foreground transition hover:text-primary"
                 >
                   Dashboard
                 </Link>
               </li>
 
             </ul>
+
           </div>
 
           {/* Company */}
           <div>
-            <h3 className="font-semibold mb-4">
+
+            <h3 className="mb-5 font-semibold">
               Company
             </h3>
 
@@ -73,7 +88,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="text-muted-foreground hover:text-primary"
+                  className="text-muted-foreground transition hover:text-primary"
                 >
                   About
                 </Link>
@@ -82,7 +97,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/privacy"
-                  className="text-muted-foreground hover:text-primary"
+                  className="text-muted-foreground transition hover:text-primary"
                 >
                   Privacy Policy
                 </Link>
@@ -91,42 +106,50 @@ export default function Footer() {
               <li>
                 <Link
                   href="/terms"
-                  className="text-muted-foreground hover:text-primary"
+                  className="text-muted-foreground transition hover:text-primary"
                 >
                   Terms of Service
                 </Link>
               </li>
 
             </ul>
+
           </div>
 
-          {/* Social */}
+          {/* Connect */}
           <div>
-            <h3 className="font-semibold mb-4">
+
+            <h3 className="mb-5 font-semibold">
               Connect
             </h3>
 
-            <div className="flex gap-4">
+            <div className="flex gap-3">
 
               <a
                 href="https://github.com/meheraz1100"
                 target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border bg-background p-3 transition-all hover:-translate-y-1 hover:border-primary hover:text-primary"
               >
-                <FaGithub className="h-5 w-5 hover:text-primary transition" />
+                <FaGithub className="h-5 w-5" />
               </a>
 
               <a
                 href="https://linkedin.com"
                 target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border bg-background p-3 transition-all hover:-translate-y-1 hover:border-primary hover:text-primary"
               >
-                <FaLinkedin className="h-5 w-5 hover:text-primary transition" />
+                <FaLinkedin className="h-5 w-5" />
               </a>
 
               <a
                 href="https://twitter.com"
                 target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border bg-background p-3 transition-all hover:-translate-y-1 hover:border-primary hover:text-primary"
               >
-                <FaXTwitter className="h-5 w-5 hover:text-primary transition" />
+                <FaXTwitter className="h-5 w-5" />
               </a>
 
             </div>
@@ -139,14 +162,18 @@ export default function Footer() {
 
         </div>
 
-        <div className="mt-12 border-t pt-6 flex flex-col md:flex-row items-center justify-between">
+        {/* Bottom */}
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-6 text-center md:flex-row">
 
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} ShortLink. All rights reserved.
           </p>
 
-          <p className="text-sm text-muted-foreground mt-3 md:mt-0">
-            Built with ❤️ Mosaiyeb Meheraz
+          <p className="text-sm text-muted-foreground">
+            Built with ❤️ by{" "}
+            <span className="font-semibold text-foreground">
+              Mosaiyeb Meheraz
+            </span>
           </p>
 
         </div>

@@ -13,6 +13,7 @@ import {
 } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
+import ThemeToggle from "../theme-toggle";
 
 import {
   Link2,
@@ -45,7 +46,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60 text-foreground">
       <Container>
         <div className="flex h-16 items-center justify-between">
 
@@ -55,7 +56,7 @@ export default function Navbar() {
             onClick={closeMenu}
             className="flex items-center gap-2"
           >
-            <div className="rounded-lg bg-primary p-2 text-white">
+            <div className="rounded-lg bg-primary p-2 text-background">
               <Link2 className="h-5 w-5" />
             </div>
 
@@ -65,15 +66,15 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <nav className="hidden items-center gap-7 md:flex">
+          <nav className="hidden items-center gap-7 md:flex text-foreground">
             {navLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition ${
+                className={` font-medium transition ${
                   pathname === item.href
                     ? "text-primary"
-                    : "text-muted-foreground hover:text-primary"
+                    : "hover:text-primary"
                 }`}
               >
                 {item.name}
@@ -89,7 +90,7 @@ export default function Navbar() {
                     Dashboard
                   </Button>
                 </Link>
-
+<ThemeToggle />
                 <UserButton
                   appearance={{
                     elements: {
@@ -173,7 +174,7 @@ export default function Navbar() {
                       Dashboard
                     </Button>
                   </Link>
-
+<ThemeToggle />
                   <UserButton
                     appearance={{
                       elements: {
