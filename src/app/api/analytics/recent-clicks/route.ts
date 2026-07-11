@@ -2,6 +2,11 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+type DailyClicks = {
+  day: string;
+  clicks: number;
+};
+
 export async function GET() {
   const { userId } = await auth();
 
@@ -22,7 +27,7 @@ export async function GET() {
     },
   });
 
-  const last7Days = [];
+  const last7Days: DailyClicks[] = [];
 
   for (let i = 6; i >= 0; i--) {
     const date = new Date();
@@ -41,13 +46,10 @@ export async function GET() {
   }
 
   links.forEach((link) => {
-    const key = new Date(link.createdAt).toLocaleDateString(
-      "en-US",
-      {
-        month: "short",
-        day: "numeric",
-      }
-    );
+    const key = new Date(link.createdAt).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
 
     const item = last7Days.find((d) => d.day === key);
 

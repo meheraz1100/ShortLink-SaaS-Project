@@ -24,17 +24,17 @@ export default function MobileSidebar() {
   return (
     <Sheet>
 
-      <SheetTrigger asChild>
-
-        <Button
-          size="icon"
-          variant="ghost"
-          className="lg:hidden"
-        >
-          <Menu className="h-5 w-5" />
-        </Button>
-
-      </SheetTrigger>
+      <SheetTrigger
+  render={
+    <Button
+      size="icon"
+      variant="ghost"
+      className="lg:hidden"
+    />
+  }
+>
+  <Menu className="h-5 w-5" />
+</SheetTrigger>
 
       <SheetContent
         side="left"
