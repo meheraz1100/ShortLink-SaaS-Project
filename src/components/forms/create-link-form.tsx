@@ -10,21 +10,62 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Sparkles, Loader2 } from "lucide-react";
 
 export default function CreateLinkForm() {
   const [shortLink, setShortLink] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const {
-    register,
-    handleSubmit,
-    reset,
-    formState: {
-      isSubmitting,
-      errors,
-    },
-  } = useForm<LinkFormData>({
+  register,
+  handleSubmit,
+  reset,
+  setValue,
+  getValues,
+  formState: {
+    isSubmitting,
+    errors,
+  },
+} = useForm<LinkFormData>({
     resolver: zodResolver(linkSchema),
   });
+
+  async function generateAlias() {
+  const url = getValues("originalUrl");
+
+  if (!url) {
+    toast.error("Please enter a URL first.");
+    return;
+  }
+
+  try {
+    setIsGenerating(true);
+
+    const res = await fetch("/api/ai/alias", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url,
+      }),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      toast.error(result.message);
+      return;
+    }
+
+    setSuggestions(result.suggestions);
+  } catch {
+    toast.error("Failed to generate alias.");
+  } finally {
+    setIsGenerating(false);
+  }
+}
 
   async function onSubmit(data: LinkFormData) {
     try {
@@ -44,7 +85,7 @@ export default function CreateLinkForm() {
       }
 
       setShortLink(
-        `${window.location.origin}/${result.shortCode}`
+        `${process.env.NEXT_PUBLIC_APP_URL}/r/${result.shortCode}`
       );
 
       toast.success("Short URL Created Successfully");
@@ -85,6 +126,56 @@ export default function CreateLinkForm() {
               placeholder="Custom Alias"
               {...register("customAlias")}
             />
+            
+            <Button
+  type="button"
+  variant="outline"
+  size="sm"
+  className="mt-3 w-full"
+  onClick={generateAlias}
+  disabled={isGenerating}
+>
+  {isGenerating ? (
+    <>
+      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      Suggesting...
+    </>
+  ) : (
+    <>
+      <Sparkles className="mr-2 h-4 w-4" />
+      Suggest Alias
+    </>
+  )}
+</Button>
+
+{suggestions.length > 0 && (
+  <div className="mt-4 flex flex-wrap gap-2">
+
+    {suggestions.map((alias) => (
+      <button
+        key={alias}
+        type="button"
+        onClick={() =>
+          setValue("customAlias", alias)
+        }
+        className="
+          rounded-full
+          border
+          bg-muted
+          px-4
+          py-2
+          text-sm
+          transition
+          hover:bg-primary
+          hover:text-primary-foreground
+        "
+      >
+        ✨ {alias}
+      </button>
+    ))}
+
+  </div>
+)}
 
             {errors.customAlias && (
               <p className="mt-2 text-sm text-destructive">
@@ -92,6 +183,7 @@ export default function CreateLinkForm() {
               </p>
             )}
           </div>
+          
 
           {/* Expire */}
           <div>

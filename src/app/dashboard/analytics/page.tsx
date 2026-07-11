@@ -3,8 +3,11 @@ import AnalyticsCharts from "@/components/dashboard/analytics-chart";
 import RecentClickChart from "@/components/dashboard/recent-click-chart";
 import TopLinksChart from "@/components/dashboard/top-links-chart";
 import DeviceDistribution from "@/components/analytics/device-distribution";
+import OsDistributionChart from "@/components/dashboard/analytics/os-distribution-chart";
 
 export default function AnalyticsPage() {
+
+  
 
     const weeklyClicks = [
   {
@@ -97,6 +100,7 @@ export default function AnalyticsPage() {
       {/* Top Links */}
 
       <TopLinksChart data={topLinks} />
+      <OsDistributionChart />
 
     </div>
   );

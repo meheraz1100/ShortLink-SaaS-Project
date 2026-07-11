@@ -35,7 +35,7 @@ export const columns: ColumnDef<Link>[] = [
   header: "Short URL",
   cell: ({ row }) => {
     const shortUrl =
-  `${process.env.NEXT_PUBLIC_APP_URL}/${row.original.shortCode}`;
+  `${process.env.NEXT_PUBLIC_APP_URL}/r/${row.original.shortCode}`;
 
     return (
       <div className="flex min-w-0 items-center gap-2">
